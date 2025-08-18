@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>D.A.R.K — Digital Access to Resources & Knowledge</title>
+  <meta name="description" content="D.A.R.K is a free e-library for books and notes. Search, preview, and download PDFs instantly." />
+  <link rel="icon" href="assets/favicon.png" />
+
+  <!-- Bootstrap 5.3 + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    /* Brand + readability */
+    :root {
+      --brand: #7c4dff;
+      --brand-2: #00d4ff;
+    }
+    .brand-gradient {
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .navbar-brand span { letter-spacing: 1px; }
+    .hero {
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(124,77,255,.15), transparent),
+                  radial-gradient(1200px 600px at 90% 110%, rgba(0,212,255,.12), transparent);
+    }
+    .card-img-top {
+      height: 180px;
+      object-fit: cover;
+    }
+    .badge-soft {
+      background: rgba(124,77,255,.15);
+      border: 1px solid rgba(124,77,255,.35);
+      color: #cbbcff;
+    }
+    .filter-chip {
+      cursor: pointer;
+    }
+    .filter-chip.active {
+      background: rgba(0,212,255,.15) !important;
+      border-color: rgba(0,212,255,.45) !important;
+      color: #a8f1ff !important;
+    }
+    .footer-link { color: #aab; text-decoration: none; }
+    .footer-link:hover { color: #fff; }
+    /* Improve focus styles */
+    :focus-visible { outline: 2px dashed var(--brand-2); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg border-bottom sticky-top bg-body">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <i class="bi bi-journal-text me-2 text-info"></i>
+        <span class="brand-gradient">D.A.R.K</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="nav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#library">Library</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item">
+            <a class="btn btn-outline-info ms-lg-3" href="admin.html">
+              <i class="bi bi-cloud-upload me-1"></i> Upload (demo)
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero py-5">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <h1 class="display-5 fw-bold">Open learning, zero friction.</h1>
+          <p class="lead text-secondary">
+            Explore free books and notes. Search fast, preview instantly, and download what you need.
+          </p>
+
+          <div class="card bg-body-tertiary border-0 shadow-sm">
+            <div class="card-body p-3 p-md-4">
+              <div class="row g-2 g-md-3 align-items-center">
+                <div class="col-12 col-md-6">
+                  <label class="form-label mb-1">Search</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input id="q" class="form-control" placeholder="Title, author, subject, tags..." />
+                  </div>
+                </div>
+                <div class="col-6 col-md-2">
+                  <label class="form-label mb-1">Type</label>
+                  <select id="fType" class="form-select">
+                    <option value="">All</option>
+                    <option value="Book">Book</option>
+                    <option value="Notes">Notes</option>
+                  </select>
+                </div>
+                <div class="col-6 col-md-2">
+                  <label class="form-label mb-1">Subject</label>
+                  <select id="fSubject" class="form-select">
+                    <option value="">All</option>
+                    <option>Mathematics</option>
+                    <option>Physics</option>
+                    <option>Chemistry</option>
+                    <option>CS</option>
+                  </select>
+                </div>
+                <div class="col-6 col-md-2">
+                  <label class="form-label mb-1">Language</label>
+                  <select id="fLang" class="form-select">
+                    <option value="">Any</option>
+                    <option>English</option>
+                    <option>Nepali</option>
+                    <option>Hindi</option>
+                  </select>
+                </div>
+              </div>
+              <div class="d-flex gap-2 flex-wrap mt-3">
+                <span class="badge rounded-pill text-bg-dark border filter-chip" data-chip="Popular">Popular</span>
+                <span class="badge rounded-pill text-bg-dark border filter-chip" data-chip="Syllabus">Syllabus</span>
+                <span class="badge rounded-pill text-bg-dark border filter-chip" data-chip="PYQ">PYQ</span>
+                <span class="badge rounded-pill text-bg-dark border filter-chip" data-chip="Beginner">Beginner</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2 mt-3">
+            <button id="clearFilters" class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-sliders"></i> Clear filters
+            </button>
+            <div class="ms-auto d-none d-md-flex align-items-center text-secondary small">
+              <i class="bi bi-lightning-charge me-1 text-warning"></i> Instant results
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="p-3 p-md-4 rounded-4 border bg-body-tertiary">
+            <h5 class="mb-2"><i class="bi bi-stars text-warning me-2"></i>Why D.A.R.K?</h5>
+            <ul class="mb-0 small">
+              <li class="mb-1"><strong>Clarity:</strong> Clean layout, no clutter.</li>
+              <li class="mb-1"><strong>Speed:</strong> Search and filter without page reloads.</li>
+              <li class="mb-1"><strong>Access:</strong> Free PDFs with instant preview.</li>
+              <li class="mb-1"><strong>Future‑proof:</strong> Easy to connect to any backend.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Library -->
+  <section id="library" class="py-5">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h3 mb-0">Library</h2>
+        <div class="d-flex align-items-center gap-2">
+          <label class="text-secondary small">Sort</label>
+          <select id="sort" class="form-select form-select-sm w-auto">
+            <option value="new">Newest</option>
+            <option value="title">Title A–Z</option>
+            <option value="author">Author A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="grid" class="row g-3 g-md-4">
+        <!-- Cards injected here -->
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="text-secondary small" id="countInfo"></div>
+        <nav>
+          <ul class="pagination pagination-sm mb-0" id="pager"></ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-5 border-top">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-7">
+          <h2 class="h3">About D.A.R.K</h2>
+          <p>
+            D.A.R.K (Digital Access to Resources & Knowledge) is a free e‑library for students and self‑learners. It’s built to be fast, accessible, and simple to maintain. Upload your PDFs, tag them well, and let learners find what matters in seconds.
+          </p>
+          <ul class="mb-0">
+            <li><strong>Open access:</strong> Free notes and books.</li>
+            <li><strong>Inclusive:</strong> English, Nepali, Hindi support.</li>
+            <li><strong>Accessible:</strong> Keyboard‑friendly, good contrast, alt text.</li>
+          </ul>
+        </div>
+        <div class="col-lg-5">
+          <div class="p-3 p-md-4 rounded-4 border bg-body-tertiary">
+            <h5 class="mb-2"><i class="bi bi-tools me-2 text-info"></i>Tech</h5>
+            <ul class="small mb-0">
+              <li><strong>Bootstrap 5.3:</strong> Responsive UI.</li>
+              <li><strong>Vanilla JS:</strong> Search, filters, pagination.</li>
+              <li><strong>LocalStorage:</strong> Demo uploads; replace with backend later.</li>
+              <li><strong>SEO:</strong> Meta tags, clean URLs, semantic HTML.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 border-top">
+    <div class="container d-flex flex-wrap gap-3 justify-content-between align-items-center">
+      <div class="small text-secondary">
+        <i class="bi bi-journal-text me-1 text-info"></i>
+        D.A.R.K • Free e‑library
+      </div>
+      <div class="d-flex gap-3 small">
+        <a class="footer-link" href="#about">About</a>
+        <a class="footer-link" href="#">Privacy</a>
+        <a class="footer-link" href="admin.html">Upload (demo)</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PDF Modal -->
+  <div class="modal fade" id="pdfModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="me-auto">
+            <h5 class="modal-title" id="pdfTitle">Preview</h5>
+            <div class="small text-secondary" id="pdfMeta"></div>
+          </div>
+          <a id="pdfDownload" class="btn btn-sm btn-primary" target="_blank" rel="noopener">
+            <i class="bi bi-download me-1"></i> Download
+          </a>
+          <button type="button" class="btn-close ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0" style="height: 75vh;">
+          <iframe id="pdfFrame" src="" title="PDF preview" width="100%" height="100%" style="border:0;"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Sample data (you can delete after adding real/uploaded items)
+    const sampleBooks = [
+      {
+        id: "b1", title: "Calculus Essentials", author: "Stewart",
+        type: "Book", subject: "Mathematics", language: "English",
+        tags: ["Beginner","Popular"], year: "2021",
+        coverUrl: "https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=800&auto=format&fit=crop",
+        pdfUrl: "https://arxiv.org/pdf/1707.08567.pdf",
+        addedAt: "2025-08-01T10:00:00Z"
+      },
+      {
+        id: "b2", title: "Mechanics Notes Pack", author: "Rohit",
+        type: "Notes", subject: "Physics", language: "English",
+        tags: ["PYQ","Syllabus"], year: "2024",
+        coverUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop",
+        pdfUrl: "https://arxiv.org/pdf/2001.00001.pdf",
+        addedAt: "2025-08-10T09:00:00Z"
+      },
+      {
+        id: "b3", title: "Data Structures Quick Guide", author: "CS Collective",
+        type: "Notes", subject: "CS", language: "Hindi",
+        tags: ["Beginner"], year: "2023",
+        coverUrl: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=800&auto=format&fit=crop",
+        pdfUrl: "https://arxiv.org/pdf/2203.00001.pdf",
+        addedAt: "2025-08-02T11:00:00Z"
+      },
+      {
+        id: "b4", title: "Organic Chemistry Basics", author: "Kaur",
+        type: "Book", subject: "Chemistry", language: "Nepali",
+        tags: ["Syllabus"], year: "2022",
+        coverUrl: "https://images.unsplash.com/photo-1581093588401-16ec8a47b7fd?q=80&w=800&auto=format&fit=crop",
+        pdfUrl: "https://arxiv.org/pdf/1812.00001.pdf",
+        addedAt: "2025-08-05T12:00:00Z"
+      }
+    ];
+
+    // Load demo uploads from localStorage
+    function getUploads() {
+      try { return JSON.parse(localStorage.getItem("dark_uploads") || "[]"); }
+      catch { return []; }
+    }
+
+    // State
+    let books = [...sampleBooks, ...getUploads()];
+    let state = {
+      q: "", type: "", subject: "", language: "",
+      chips: new Set(), sort: "new", page: 1, perPage: 8
+    };
+
+    // Elements
+    const el = s => document.querySelector(s);
+    const grid = el("#grid"), q = el("#q"), fType = el("#fType"),
+          fSubject = el("#fSubject"), fLang = el("#fLang"),
+          sortSel = el("#sort"), pager = el("#pager"), countInfo = el("#countInfo");
+
+    // Helpers
+    const norm = s => (s || "").toString().toLowerCase().trim();
+    const by = (k) => (a,b) => norm(a[k]).localeCompare(norm(b[k]));
+    const byDateDesc = (a,b) => new Date(b.addedAt) - new Date(a.addedAt);
+    const debounce = (fn, t=250) => { let id; return (...args)=>{ clearTimeout(id); id=setTimeout(()=>fn(...args), t); }; };
+
+    function applyFilters() {
+      let list = books.slice();
+
+      // Text search
+      const nQ = norm(state.q);
+      if (nQ) {
+        list = list.filter(b => [b.title,b.author,b.subject,b.language,(b.tags||[]).join(" ")]
+          .map(norm).some(x => x.includes(nQ)));
+      }
+      // Dropdown filters
+      if (state.type) list = list.filter(b => b.type === state.type);
+      if (state.subject) list = list.filter(b => b.subject === state.subject);
+      if (state.language) list = list.filter(b => b.language === state.language);
+      // Chips (tags must include all active chips)
+      if (state.chips.size) {
+        const req = [...state.chips];
+        list = list.filter(b => req.every(t => (b.tags||[]).includes(t)));
+      }
+      // Sort
+      if (state.sort === "new") list.sort(byDateDesc);
+      if (state.sort === "title") list.sort(by("title"));
+      if (state.sort === "author") list.sort(by("author"));
+
+      return list;
+    }
+
+    function render() {
+      const filtered = applyFilters();
+      const total = filtered.length;
+      const pages = Math.max(1, Math.ceil(total / state.perPage));
+      state.page = Math.min(state.page, pages);
+
+      // Pagination slice
+      const start = (state.page - 1) * state.perPage;
+      const items = filtered.slice(start, start + state.perPage);
+
+      // Cards
+      grid.innerHTML = items.map(b => `
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+          <div class="card h-100 border-0 shadow-sm">
+            <img class="card-img-top" loading="lazy" src="${b.coverUrl || 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0ea?q=80&w=800&auto=format&fit=crop'}" alt="${b.title} cover">
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-1">
+                <span class="badge text-bg-secondary">${b.type}</span>
+                <span class="badge badge-soft">${b.subject}</span>
+              </div>
+              <h6 class="card-title mb-1">${b.title}</h6>
+              <div class="small text-secondary mb-2">by ${b.author} • ${b.language}${b.year ? ' • '+b.year : ''}</div>
+              <div class="d-flex gap-1 flex-wrap mb-3">
+                ${(b.tags||[]).slice(0,3).map(t => `<span class="badge text-bg-dark border">${t}</span>`).join('')}
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-primary flex-grow-1" data-action="preview" data-id="${b.id}">
+                  <i class="bi bi-eye me-1"></i> Preview
+                </button>
+                <a class="btn btn-sm btn-outline-secondary" href="${b.pdfUrl}" target="_blank" rel="noopener">
+                  <i class="bi bi-download"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      // Count + pager
+      countInfo.textContent = `${total} item${total!==1?'s':''} • Page ${state.page} of ${pages}`;
+      renderPager(pages);
+    }
+
+    function renderPager(pages) {
+      const btn = (p, label = p, disabled = false, active = false) => `
+        <li class="page-item ${disabled?'disabled':''} ${active?'active':''}">
+          <a class="page-link" href="#" data-page="${p}">${label}</a>
+        </li>`;
+      let html = '';
+      html += btn(Math.max(1, state.page-1), "&laquo;", state.page===1);
+      for (let p = 1; p <= pages; p++) {
+        if (p===1 || p===pages || Math.abs(p - state.page) <= 1) {
+          html += btn(p, p, false, p===state.page);
+        } else if (!html.endsWith('...')) {
+          html += `<li class="page-item disabled"><span class="page-link">…</span></li>`;
+        }
+      }
+      html += btn(Math.min(pages, state.page+1), "&raquo;", state.page===pages);
+      pager.innerHTML = html;
+    }
+
+    // Events
+    pager.addEventListener("click", e => {
+      const a = e.target.closest("a[data-page]");
+      if (!a) return;
+      e.preventDefault();
+      state.page = Number(a.dataset.page);
+      render();
+    });
+
+    const onSearch = debounce(() => { state.q = q.value; state.page = 1; render(); }, 200);
+    q.addEventListener("input", onSearch);
+    fType.addEventListener("change", () => { state.type = fType.value; state.page = 1; render(); });
+    fSubject.addEventListener("change", () => { state.subject = fSubject.value; state.page = 1; render(); });
+    fLang.addEventListener("change", () => { state.language = fLang.value; state.page = 1; render(); });
+    sortSel.addEventListener("change", () => { state.sort = sortSel.value; render(); });
+
+    document.querySelectorAll(".filter-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const tag = chip.dataset.chip;
+        if (state.chips.has(tag)) { state.chips.delete(tag); chip.classList.remove("active"); }
+        else { state.chips.add(tag); chip.classList.add("active"); }
+        state.page = 1; render();
+      });
+    });
+
+    el("#clearFilters").addEventListener("click", () => {
+      q.value = ""; fType.value=""; fSubject.value=""; fLang.value="";
+      state = { q:"", type:"", subject:"", language:"", chips:new Set(), sort: sortSel.value, page:1, perPage:8 };
+      document.querySelectorAll(".filter-chip").forEach(c=>c.classList.remove("active"));
+      render();
+    });
+
+    // Preview modal
+    grid.addEventListener("click", e => {
+      const btn = e.target.closest("button[data-action='preview']");
+      if (!btn) return;
+      const book = books.find(b => b.id === btn.dataset.id);
+      if (!book) return;
+      el("#pdfTitle").textContent = book.title;
+      el("#pdfMeta").textContent = `${book.author} • ${book.subject} • ${book.language}${book.year?' • '+book.year:''}`;
+      el("#pdfFrame").src = book.pdfUrl;
+      el("#pdfDownload").href = book.pdfUrl;
+      const modal = new bootstrap.Modal(document.getElementById("pdfModal"));
+      modal.show();
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
