@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Catch the Blocks - Rohit Shriwastav </title>
+        <style>
+        body {
+            margin: 0;
+            background: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h2 {
+            margin: 10px;
+        }
+
+        #ui {
+            margin: 5px;
+        }
+
+        canvas {
+            background: #111;
+            border: 2px solid white;
+            display: block;
+            margin: auto;
+            width: min(92vw, 700px);
+            height: 420px;
+            max-width: 700px;
+            max-height: 420px;
+        }
+
+        #gameOverScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+    </head>
+    <body>
+
+        <h2>Catch the Blocks</h2>
+
+        <div id="ui">
+            Score: <span id="score">0</span> |
+            Lives: <span id="lives">5</span>
+        </div>
+
+        <canvas id="game"></canvas>
+
+        <div id="gameOverScreen">
+            <h1>GAME OVER</h1>
+            <p id="finalScore"></p>
+            <button onclick="restartGame()">Retry</button>
+        </div>
+
+        <script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+    canvas.width = Math.min(window.innerWidth * 0.92, 700);
+    canvas.height = Math.min(window.innerHeight * 0.55, 420);
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+let score, lives, gameOver;
+let blocks, player, keys;
+
+function initGame() {
+    score = 0;
+    lives = 5;
+    gameOver = false;
+
+    blocks = [];
+
+    player = {
+        x: canvas.width / 2 - 40,
+        y: canvas.height - 40,
+        width: 80,
+        height: 20,
+        speed: 10
+    };
+
+    keys = {};
+
+    document.getElementById("score").textContent = score;
+    document.getElementById("lives").textContent = lives;
+    document.getElementById("gameOverScreen").style.display = "none";
+}
+
+initGame();
+
+function createBlock() {
+    if (gameOver) return;
+
+    blocks.push({
+        x: Math.random() * (canvas.width - 20),
+        y: -20,
+        size: 20,
+        speed: 2 + Math.random() * 3
+    });
+}
+
+setInterval(createBlock, 700);
+
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
+
+function update() {
+    if (gameOver) return;
+
+    if (keys["ArrowLeft"] && player.x > 0)
+        player.x -= player.speed;
+
+    if (keys["ArrowRight"] && player.x < canvas.width - player.width)
+        player.x += player.speed;
+
+    for (let i = blocks.length - 1; i >= 0; i--) {
+        let b = blocks[i];
+        b.y += b.speed;
+
+        // collision
+        if (
+            b.x < player.x + player.width &&
+            b.x + b.size > player.x &&
+            b.y < player.y + player.height &&
+            b.y + b.size > player.y
+        ) {
+            score++;
+            document.getElementById("score").textContent = score;
+            blocks.splice(i, 1);
+        }
+
+        // missed
+        else if (b.y > canvas.height) {
+            blocks.splice(i, 1);
+            lives--;
+            document.getElementById("lives").textContent = lives;
+
+            if (lives <= 0) {
+                endGame();
+            }
+        }
+    }
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // player
+    ctx.fillStyle = "lime";
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+
+    // blocks
+    ctx.fillStyle = "red";
+    blocks.forEach(b => {
+        ctx.fillRect(b.x, b.y, b.size, b.size);
+    });
+}
+
+function gameLoop() {
+    update();
+    draw();
+    requestAnimationFrame(gameLoop);
+}
+
+function endGame() {
+    gameOver = true;
+    document.getElementById("finalScore").textContent = "Score: " + score;
+    document.getElementById("gameOverScreen").style.display = "flex";
+}
+
+function restartGame() {
+    initGame();
+}
+
+gameLoop();
+</script>
+
+    </body>
+</html>
