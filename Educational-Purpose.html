@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Educational Purpose | Rohit's Interactive Programs</title>
+        <!-- Bootstrap 5 CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <!-- Google Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+
+        <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #5A52D5;
+            --secondary: #FF6584;
+            --dark: #1a1a2e;
+            --darker: #16162a;
+            --light: #f8f9fa;
+            --text-muted: #8892b0;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: #ccd6f6;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            color: #e6f1ff;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(22, 22, 42, 0.85) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            padding: 10px 0;
+            background: rgba(22, 22, 42, 0.95) !important;
+        }
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #e6f1ff !important;
+        }
+        .navbar-brand span {
+            color: var(--primary);
+        }
+        .nav-link {
+            color: #8892b0 !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 8px 16px !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary) !important;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        .navbar-toggler {
+            border: 1px solid var(--border-glass);
+            padding: 4px 8px;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(204, 214, 246, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+        .section-header {
+            margin-bottom: 60px;
+        }
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: block;
+            letter-spacing: 1px;
+        }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: #e6f1ff;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        .section-line {
+            width: 100%;
+            height: 1px;
+            background: var(--border-glass);
+            margin: 0;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            background: var(--darker);
+            min-height: 100vh;
+        }
+
+        /* Interactive Projects Grid */
+        .interactive-projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .interactive-project-card {
+            background: var(--glass);
+            border: 2px solid var(--border-glass);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            height: 100%;
+        }
+
+        .interactive-project-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(108, 99, 255, 0.2);
+        }
+
+        .interactive-project-card:hover .project-title {
+            color: var(--primary);
+        }
+
+        .project-thumbnail {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 14px 14px 0 0;
+            background: var(--darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .interactive-project-card:hover .project-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .project-thumbnail iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+        }
+
+        .interactive-project-content {
+            flex: 1;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .project-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e6f1ff;
+            line-height: 1.3;
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+        .fade-in:nth-child(5) { animation-delay: 0.5s; }
+        .fade-in:nth-child(6) { animation-delay: 0.6s; }
+        .fade-in:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: none;
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.3);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            color: #fff;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--darker);
+            border-top: 1px solid var(--border-glass);
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .footer-text a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .section {
+                padding: 70px 0;
+            }
+        }
+        @media (max-width: 767px) {
+            .section {
+                padding: 60px 0;
+            }
+            .interactive-projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+        }
+        @media (max-width: 575px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .interactive-projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 12px;
+            }
+        }
+    </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+            <div class="container">
+                <a class="navbar-brand"
+                    href="index.html">Rohit<span>.</span>dev</a>
+                <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navMenu">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link"
+                                href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active"
+                                href="#programs">Programs</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Interactive Projects Section -->
+        <section class="section projects-section" id="programs">
+            <div class="container">
+                <div class="section-header text-center fade-in">
+                    <span class="section-label">// INTERACTIVE PROGRAMS</span>
+                    <h2 class="section-title">Try My Programs</h2>
+                    <p
+                        style="margin-top: 20px; color: var(--text-muted); font-size: 1.05rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        Explore a collection of interactive educational programs
+                        and games I've created. Click on any card to launch the
+                        program!
+                    </p>
+                </div>
+
+                <div class="interactive-projects-grid">
+                    <a href="HTMLS/e-library.html"
+                        class="interactive-project-card fade-in" target="_blank"
+                        title="Explore the E-Library">
+                        <div class="project-thumbnail">
+                            <img src="Thumbnails/e-Library.png" alt="E-Library" />
+                        </div>
+                        <div class="interactive-project-content">
+                            <div class="project-title">E-Library</div>
+                        </div>
+                    </a>
+                    <a href="HTMLS/Classical Bits vs ⚛️ Quantum Qubits.html"
+                        class="interactive-project-card fade-in" target="_blank"
+                        title="Learn Classical vs Quantum">
+                        <div class="project-thumbnail">
+                            <img
+                                src="Thumbnails/Classical Bits vs ⚛️ Quantum Qubits.png"
+                                alt="Classical Bits vs Quantum Qubits" />
+                        </div>
+                        <div class="interactive-project-content">
+                            <div class="project-title">Classical Bits vs Quantum
+                                Qubits</div>
+                        </div>
+                    </a>
+                    <a href="HTMLS/Classical vs Quantum Search.html"
+                        class="interactive-project-card fade-in" target="_blank"
+                        title="Compare search algorithms">
+                        <div class="project-thumbnail">
+                            <img
+                                src="Thumbnails/Classical vs Quantum Search.png"
+                                alt="Classical vs Quantum Search" />
+                        </div>
+                        <div class="interactive-project-content">
+                            <div class="project-title">Classical vs Quantum
+                                Search</div>
+                        </div>
+                    </a>
+                    <a href="HTMLS/Guest Is Coming!.html"
+                        class="interactive-project-card fade-in" target="_blank"
+                        title="Play Guest Is Coming game">
+                        <div class="project-thumbnail">
+                            <img src="Thumbnails/Guest Is Coming!.png"
+                                alt="Guest Is Coming!" />
+                        </div>
+                        <div class="interactive-project-content">
+                            <div class="project-title">Guest Is Coming!</div>
+                        </div>
+                    </a>
+                    <a href="HTMLS/The Locker Challenge.html"
+                        class="interactive-project-card fade-in" target="_blank"
+                        title="Solve The Locker Challenge">
+                        <div class="project-thumbnail">
+                            <img src="Thumbnails/The Locker Challenge.png"
+                                alt="The Locker Challenge" />
+                        </div>
+                        <div class="interactive-project-content">
+                            <div class="project-title">The Locker
+                                Challenge</div>
+                        </div>
+                    </a>
+                    <a href="HTMLS/Catch_the_Blocks.html"
+                        class="interactive-project-card fade-in" target="_blank"
+                        title="Play Catch the Blocks game">
+                        <div class="project-thumbnail">
+                            <img src="Thumbnails/Catch_the_Blocks.png"
+                                alt="Catch the Blocks" />
+                        </div>
+                        <div class="interactive-project-content">
+                            <div class="project-title">Catch the Blocks</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-line">
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-text">
+                    <p>&copy; 2024 Rohit Kumar Shriwastav. All rights reserved.
+                        |
+                        <a href="index.html">Back to Portfolio</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Back to Top Button -->
+        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+            <i class="bi bi-chevron-up"></i>
+        </button>
+
+        <!-- Bootstrap 5 JS -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+                navbar.classList.add('scrolled');
+            } else {
+                backToTopBtn.classList.remove('visible');
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+    </body>
+</html>

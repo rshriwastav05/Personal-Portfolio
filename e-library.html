@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D.A.R.K – Digital Access to Resources & Knowledge</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --accent: #00ff96;
+            --accent-2: #0096ff;
+            --muted-bg: rgba(0,0,0,0.55);
+            --card-bg: rgba(255,255,255,0.03);
+        }
+        html,body{height:100%}
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            background: #0d0d0d;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Motion background */
+        .animated-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, rgba(0,255,150,0.06) 0%, transparent 60%),
+                                    radial-gradient(circle at bottom right, rgba(0,150,255,0.05) 0%, transparent 60%),
+                                    radial-gradient(circle at top left, rgba(255,0,150,0.04) 0%, transparent 60%);
+            animation: moveBg 18s ease-in-out infinite;
+            filter: blur(18px) saturate(120%);
+        }
+        @keyframes moveBg {
+            0%,100% { background-position: center, bottom right, top left; }
+            50% { background-position: bottom left, top right, center; }
+        }
+
+        .navbar {
+            background-color: var(--muted-bg);
+            backdrop-filter: blur(8px);
+        }
+
+        .hero {
+            padding: 8rem 1rem 3rem;
+            text-align: center;
+        }
+        .hero h1 { font-weight: 600; color: #fff; }
+        .hero .lead { color: #d8f9ea; opacity: .9; }
+
+        /* Unified section background for dark theme */
+        .section-dark {
+            background-color: rgba(0,0,0,0.45);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+            border-radius: 8px;
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-bar .form-control {
+            background: rgba(255,255,255,0.03);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 0;
+            color: #fff;
+        }
+        .card .card-body { padding: 1rem; }
+        .card-img-top {
+            height: 160px;
+            object-fit: cover;
+            border-top-left-radius: .375rem;
+            border-top-right-radius: .375rem;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+        }
+
+        .badge-theme {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .text-secondary {
+            color: rgba(255,255,255,0.65) !important;
+        }
+
+        footer {
+            background-color: rgba(0,0,0,0.6);
+            padding: 1rem 0;
+            text-align: center;
+            color: rgba(255,255,255,0.75);
+        }
+
+        /* Small responsive tweaks */
+        @media (max-width:576px){
+            .card-img-top { height: 140px; }
+            .hero { padding-top:6.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="animated-bg"></div>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">D.A.R.K</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+                        aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#library">Library</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero text-light">
+    <div class="container">
+        <h1 class="display-4">Digital Access to Resources & Knowledge</h1>
+        <p class="lead mt-3">Fast, inclusive, and accessible e‑library for students and self‑learners.</p>
+        <div class="search-bar mt-4">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search books, notes, or tags..." aria-label="Search">
+                <button class="btn btn-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section id="library" class="py-4 container section-dark">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h3 mb-0">Library</h2>
+        <div class="d-flex align-items-center gap-2">
+            <label class="text-secondary small mb-0">Sort</label>
+            <select id="sort" class="form-select form-select-sm w-auto">
+                <option value="new">Newest</option>
+                <option value="title">Title A–Z</option>
+                <option value="author">Author A–Z</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="grid" class="row g-3 g-md-4">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" loading="lazy" src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&amp;w=800&amp;auto=format&amp;fit=crop" alt="Mechanics Notes Pack cover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="badge badge-theme">Notes</span>
+                        <span class="badge badge-theme">Physics</span>
+                    </div>
+                    <h6 class="card-title mb-1">Mechanics Notes Pack</h6>
+                    <div class="small text-secondary mb-2">by Rohit • English • 2024</div>
+                    <div class="d-flex gap-1 flex-wrap mb-3">
+                        <span class="badge badge-theme">PYQ</span><span class="badge badge-theme">Syllabus</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success btn-sm flex-grow-1" data-action="preview" data-id="b2">
+                            <i class="bi bi-eye me-1"></i> Preview
+                        </button>
+                        <a class="btn btn-outline-light btn-sm" href="https://arxiv.org/pdf/2001.00001.pdf" target="_blank" rel="noopener">
+                            <i class="bi bi-download"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" loading="lazy" src="https://images.unsplash.com/photo-1581093588401-16ec8a47b7fd?q=80&amp;w=800&amp;auto=format&amp;fit=crop" alt="Organic Chemistry Basics cover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="badge badge-theme">Book</span>
+                        <span class="badge badge-theme">Chemistry</span>
+                    </div>
+                    <h6 class="card-title mb-1">Organic Chemistry Basics</h6>
+                    <div class="small text-secondary mb-2">by Kaur • Nepali • 2022</div>
+                    <div class="d-flex gap-1 flex-wrap mb-3">
+                        <span class="badge badge-theme">Syllabus</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success btn-sm flex-grow-1" data-action="preview" data-id="b4">
+                            <i class="bi bi-eye me-1"></i> Preview
+                        </button>
+                        <a class="btn btn-outline-light btn-sm" href="https://arxiv.org/pdf/1812.00001.pdf" target="_blank" rel="noopener">
+                            <i class="bi bi-download"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" loading="lazy" src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&amp;w=800&amp;auto=format&amp;fit=crop" alt="Data Structures Quick Guide cover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="badge badge-theme">Notes</span>
+                        <span class="badge badge-theme">CS</span>
+                    </div>
+                    <h6 class="card-title mb-1">Data Structures Quick Guide</h6>
+                    <div class="small text-secondary mb-2">by CS Collective • Hindi • 2023</div>
+                    <div class="d-flex gap-1 flex-wrap mb-3">
+                        <span class="badge badge-theme">Beginner</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success btn-sm flex-grow-1" data-action="preview" data-id="b3">
+                            <i class="bi bi-eye me-1"></i> Preview
+                        </button>
+                        <a class="btn btn-outline-light btn-sm" href="https://arxiv.org/pdf/2203.00001.pdf" target="_blank" rel="noopener">
+                            <i class="bi bi-download"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <img class="card-img-top" loading="lazy" src="https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&amp;w=800&amp;auto=format&amp;fit=crop" alt="Calculus Essentials cover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="badge badge-theme">Book</span>
+                        <span class="badge badge-theme">Mathematics</span>
+                    </div>
+                    <h6 class="card-title mb-1">Calculus Essentials</h6>
+                    <div class="small text-secondary mb-2">by Stewart • English • 2021</div>
+                    <div class="d-flex gap-1 flex-wrap mb-3">
+                        <span class="badge badge-theme">Beginner</span><span class="badge badge-theme">Popular</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success btn-sm flex-grow-1" data-action="preview" data-id="b1">
+                            <i class="bi bi-eye me-1"></i> Preview
+                        </button>
+                        <a class="btn btn-outline-light btn-sm" href="https://arxiv.org/pdf/1707.08567.pdf" target="_blank" rel="noopener">
+                            <i class="bi bi-download"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="text-secondary small" id="countInfo">4 items • Page 1 of 1</div>
+        <nav>
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" data-page="1">«</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#" data-page="1">1</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" data-page="1">»</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<section id="about" class="container section-dark">
+    <h2 class="text-center mb-4">About D.A.R.K</h2>
+    <p class="text-center text-secondary">
+        D.A.R.K (Digital Access to Resources &amp; Knowledge) is an open, free‑to‑use e‑library designed for students, educators, and lifelong learners.
+        Our mission is to make learning materials not only freely available, but also effortlessly discoverable.
+    </p>
+    <p class="text-center text-secondary">
+        With multilingual support for English, Nepali, and Hindi, we ensure inclusivity and reach.
+        Accessibility is a cornerstone of D.A.R.K — from keyboard‑friendly navigation and high‑contrast design to descriptive alt‑text for all media.
+    </p>
+    <p class="text-center text-secondary">
+        Upload your PDFs, tag them with relevant topics, and empower learners to find what matters in seconds.
+    </p>
+</section>
+
+<section id="features" class="container section-dark">
+    <div class="row text-center">
+        <div class="col-md-4 mb-3">
+            <div style="font-size:3rem; margin-bottom:1rem;">📚</div>
+            <h5>Open Access</h5>
+            <p class="text-secondary">Free notes and books, available to everyone.</p>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div style="font-size:3rem; margin-bottom:1rem;">🌏</div>
+            <h5>Inclusive</h5>
+            <p class="text-secondary">Supports English, Nepali, and Hindi.</p>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div style="font-size:3rem; margin-bottom:1rem;">♿</div>
+            <h5>Accessible</h5>
+            <p class="text-secondary">Keyboard-friendly, high contrast, alt text for images.</p>
+        </div>
+    </div>
+</section>
+
+<section id="library-collection" class="container section-dark">
+    <h2 class="text-center mb-4">Library Collection</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Sample Book</h5>
+                    <p class="card-text text-secondary">A short description of the resource.</p>
+                    <a href="#" class="btn btn-success">Download PDF</a>
+                </div>
+            </div>
+        </div>
+        <!-- Add more cards here following the unified styles -->
+    </div>
+</section>
+
+<footer class="mt-4">
+    <div class="container">
+        <small>© 2025 D.A.R.K Library – Built with Bootstrap</small>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
